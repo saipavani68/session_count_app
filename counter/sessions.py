@@ -1,6 +1,10 @@
 import logging
 import uuid
-
+import json
+import sys
+import flask
+from flask import jsonify
+from collections import OrderedDict
 from flask.sessions import SessionInterface, SessionMixin
 from werkzeug.datastructures import CallbackDict
 import requests
@@ -16,15 +20,51 @@ class SessionStore:
 
     def set_key(self, key, value):
         self.logger.debug("set_key('%s', '%s')", key, value)
-        raise NotImplementedError()
+        data = { key: value }
+        try:
+            response = requests.post(
+                'http://localhost:5100/',
+                data=data
+            )
+        except requests.exceptions.RequestException as e:
+            self.log_exception(sys.exc_info())
+            return flask.json.jsonify({
+                'method': e.request.method,
+                'url': e.request.url,
+                'exception': type(e).__name__,
+            }), 503
+        return response.json()
 
+    
     def get_key(self, key):
         self.logger.debug("get_key('%s')", key)
-        raise NotImplementedError()
+        
+        try:
+            response = requests.get("http://localhost:5100/" +key)
+            response.encoding = 'utf-8'
+        except requests.exceptions.RequestException as e:
+            self.log_exception(sys.exc_info())
+            return flask.json.jsonify({
+                'method': e.request.method,
+                'url': e.request.url,
+                'exception': type(e).__name__,
+            }), 503
+        return response.json()
 
+    
     def delete_key(self, key):
         self.logger.debug("delete_key('%s')", key)
-        raise NotImplementedError()
+        url = "http://localhost:5100/" +key
+        response = requests.delete(
+            url
+        )
+        return response
+    
+def remove_item(d, k, v):
+    if k in d:
+        if d[k].casefold() == v.casefold():
+            del d[k]
+    return dict(d)
 
 
 class KeyValueSessionStore(SessionStore):
@@ -78,9 +118,9 @@ class ServerSideSessionInterface(SessionInterface):
             return ServerSideSession(sid=sid)
 
         data = self.session_store.get_key(sid)
-
         if data:
             # Create a session object with existing data
+            app.logger.debug(data)
             return ServerSideSession(data, sid=sid)
 
         # create an empty session object
