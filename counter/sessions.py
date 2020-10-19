@@ -21,35 +21,15 @@ class SessionStore:
     def set_key(self, key, value):
         self.logger.debug("set_key('%s', '%s')", key, value)
         data = { key: value }
-        try:
-            response = requests.post(
-                'http://localhost:5100/',
-                data=data
-            )
-        except requests.exceptions.RequestException as e:
-            self.log_exception(sys.exc_info())
-            return flask.json.jsonify({
-                'method': e.request.method,
-                'url': e.request.url,
-                'exception': type(e).__name__,
-            }), 503
-        return response.json()
+        newHeaders = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+        response = requests.post('http://localhost:5100/', json=data, headers=newHeaders)
+        return response.content
 
     
     def get_key(self, key):
-        self.logger.debug("get_key('%s')", key)
-        
-        try:
-            response = requests.get("http://localhost:5100/" +key)
-            response.encoding = 'utf-8'
-        except requests.exceptions.RequestException as e:
-            self.log_exception(sys.exc_info())
-            return flask.json.jsonify({
-                'method': e.request.method,
-                'url': e.request.url,
-                'exception': type(e).__name__,
-            }), 503
-        return response.json()
+        response = requests.get("http://localhost:5100/" +key)
+        self.logger.debug(response.json())
+        return response.json().get(key)
 
     
     def delete_key(self, key):
