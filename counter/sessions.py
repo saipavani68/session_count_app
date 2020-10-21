@@ -3,11 +3,11 @@ import uuid
 import json
 import sys
 import flask
-from flask import jsonify
+import requests
 from collections import OrderedDict
 from flask.sessions import SessionInterface, SessionMixin
 from werkzeug.datastructures import CallbackDict
-import requests
+
 
 
 class SessionStore:
