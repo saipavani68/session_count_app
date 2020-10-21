@@ -32,6 +32,9 @@ The following are the steps to run the project:
     
 Now, you will be to see that the two flask applications run on two different ports as configured in the Procfile.
 
+The counter example shows a count value which increments on refresh of page or each visit and maintains a session Id.
+The session id is stored in the keys list of the other flask application which can also be viewed on the browser on a different port as mentioned.
+
 
    
 
