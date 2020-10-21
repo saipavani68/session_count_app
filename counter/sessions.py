@@ -22,22 +22,37 @@ class SessionStore:
         self.logger.debug("set_key('%s', '%s')", key, value)
         data = { key: value }
         newHeaders = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        response = requests.post(self.url, json=data, headers=newHeaders)
+        try:
+            response = requests.post(self.url, json=data, headers=newHeaders)
+        except requests.exceptions.RequestException as e:
+            return flask.json.jsonify({
+                'url': self.url,
+                'exception': type(e).__name__,
+            }), 503
         return response.content
 
     
     def get_key(self, key):
-        response = requests.get(self.url +key)
-        self.logger.debug(response.json())
+        try:
+            response = requests.get(self.url +key)
+        except requests.exceptions.RequestException as e:
+            return flask.json.jsonify({
+                'url': self.url,
+                'exception': type(e).__name__,
+            }), 503
         return response.json().get(key)
 
     
     def delete_key(self, key):
         self.logger.debug("delete_key('%s')", key)
-        url = self.url +key
-        response = requests.delete(
-            url
-        )
+        try:
+            url = self.url +key
+            response = requests.delete(url)
+        except requests.exceptions.RequestException as e:
+            return flask.json.jsonify({
+                'url': self.url,
+                'exception': type(e).__name__,
+            }), 503
         return response
     
 def remove_item(d, k, v):
