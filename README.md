@@ -35,7 +35,7 @@ Now, you will be to see that the two flask applications run on two different por
 The counter example shows a count value which increments on refresh of page or each visit and maintains a session Id.
 The session id is stored in the keys list of the other flask application which can also be viewed on the browser on a different port as mentioned.
 
-
+Note: Please also examine kv.py because in order to get all keys and values, there is an endpoint called /getAllKeysAndValues in kv.py.
    
 
 
