@@ -22,19 +22,19 @@ class SessionStore:
         self.logger.debug("set_key('%s', '%s')", key, value)
         data = { key: value }
         newHeaders = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        response = requests.post('http://localhost:5100/', json=data, headers=newHeaders)
+        response = requests.post(self.url, json=data, headers=newHeaders)
         return response.content
 
     
     def get_key(self, key):
-        response = requests.get("http://localhost:5100/" +key)
+        response = requests.get(self.url +key)
         self.logger.debug(response.json())
         return response.json().get(key)
 
     
     def delete_key(self, key):
         self.logger.debug("delete_key('%s')", key)
-        url = "http://localhost:5100/" +key
+        url = self.url +key
         response = requests.delete(
             url
         )
@@ -51,6 +51,7 @@ class KeyValueSessionStore(SessionStore):
 
     def __init__(self, url, logger=None):
         super().__init__(logger)
+        self.url = url + '/'
 
 
 class ServerSideSession(CallbackDict, SessionMixin):
