@@ -1,37 +1,36 @@
-## Welcome to GitHub Pages
+# CPSC 449 Web Back-End Engineering - Fall 2020
 
-You can use the [editor on GitHub](https://github.com/nagisettipavani/cpsc449project3/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+# Project description: 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+This project involves making HTTP requests from a Python program and using this ability to store server-side session data in a separate storage service Version 3 database.
 
-### Markdown
+The following are the steps to run the project:
+1. Clone the github repository https://github.com/nagisettipavani/cpsc449project3.git
+2. Install the pip package manager by running the following commands
+    > sudo apt update
+    >
+    > sudo apt install --yes python3-pip
+   
+3. Install Flask by:
+    
+    > python3 -m pip install Flask python-dotenv
+   
+4. Run the following commands to install Foreman and HTTPie:
+    > sudo apt update
+    
+    > sudo apt install --yes ruby-foreman httpie
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+5. Then cd into the counter folder
+    Run the following commands:
+    > flask init
+    
+    > foreman start
+    
+Now, you will be to see that the two flask applications run on two different ports as configured in the Procfile.
 
-```markdown
-Syntax highlighted code block
+The counter example shows a count value which increments on refresh of page or each visit and maintains a session Id.
+The session id is stored in the keys list of the other flask application which can also be viewed on the browser on a different port as mentioned.
+   
 
-# Header 1
-## Header 2
-### Header 3
 
-- Bulleted
-- List
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/nagisettipavani/cpsc449project3/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
