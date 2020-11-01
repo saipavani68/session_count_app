@@ -5,7 +5,7 @@
 This project involves making HTTP requests from a Python program and using this ability to store server-side session data in a separate storage service Version 3 database.
 
 The following are the steps to run the project:
-1. Clone the github repository https://github.com/nagisettipavani/cpsc449project3.git
+1. Clone the github repository https://github.com/nagisettipavani/session_count_app
 2. Install the pip package manager by running the following commands
     > sudo apt update
     >
