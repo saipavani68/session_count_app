@@ -1,5 +1,7 @@
 # CPSC 449 Web Back-End Engineering - Fall 2020
 
+Guided by Professor: Kenytt Avery @ProfAvery
+
 # Project description: 
 
 This project involves making HTTP requests from a Python program and using this ability to store server-side session data in a separate storage service Version 3 database.
